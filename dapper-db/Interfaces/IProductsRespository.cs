@@ -10,5 +10,6 @@ namespace dapper_db.Interfaces
         Task<Products> Create(ProductCreateDto productDto);
         Task<Products> Update(int id, ProductUpdateDto productDto);
         Task Delete(int id);
+        Task<IEnumerable<Products>> StoredProcedure(bool Status, decimal Price);
     }
 }

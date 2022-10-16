@@ -116,5 +116,25 @@ namespace dapper_db.Controllers
                 });
             }
         }
+
+        [HttpPost("StoredProcedures")]
+        public async Task<ActionResult<Response>> StoredProcedures(bool Status, decimal Price)
+        {
+            try
+            {
+                var response = await _productsService.StoredProcedures(Status, Price);
+
+                return StatusCode(response.Status, response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)ReturnStatus.InternalServerError, new Response
+                {
+                    Message = $"MESSAGE => {e.Message} || INNER EXCEPTION => {e.InnerException}",
+                    Code = (int)ReturnCodes.ExceptionEx,
+                    Success = false
+                });
+            }
+        }
     }
 }

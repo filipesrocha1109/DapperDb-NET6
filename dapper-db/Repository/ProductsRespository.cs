@@ -86,5 +86,19 @@ namespace dapper_db.Repository
 
             await connection.ExecuteAsync(query, new { id });
         }
+
+        public async Task<IEnumerable<Products>> StoredProcedure(bool Status, decimal Price)
+        {
+            using var connection = _context.CreateConnection();
+
+            var procedure = "sp_test";
+            var values = new
+            {
+                Status,
+                Price
+            };
+
+            return await connection.QueryAsync<Products>(procedure, values, commandType: CommandType.StoredProcedure);
+        }
     }
 }

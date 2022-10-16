@@ -156,5 +156,32 @@ namespace dapper_db.Services
                 };
             }
         }
+
+        public async Task<Response> StoredProcedures(bool Status, decimal Price)
+        {
+            try
+            {
+                var resp = await _productsRespository.StoredProcedure(Status, Price);
+
+                return new Response
+                {
+                    Data = resp,
+                    Success = true,
+                    Message = Utils.GetEnumDescription(ReturnCodes.Ok),
+                    Code = (int)ReturnCodes.Ok,
+                    Status = (int)ReturnStatus.Ok
+                };
+            }
+            catch (Exception e)
+            {
+                return new Response
+                {
+                    Success = false,
+                    Message = $"{Utils.GetEnumDescription(ReturnCodes.InternalError)} => {e.Message}|| {e.InnerException}",
+                    Code = (int)ReturnCodes.InternalError,
+                    Status = (int)ReturnStatus.InternalServerError
+                };
+            }
+        }
     }
 }
